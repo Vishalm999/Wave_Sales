@@ -1,0 +1,471 @@
+# ============================================================
+# PRODUCTION DIMENSIONS (semantic layer)
+# Only fields used by registry: column, type
+# ============================================================
+
+# ----------------------------
+# PROJECT / PROPERTY
+# ----------------------------
+
+project:
+  column: "Sales_Org_Desc"
+  type: categorical
+
+
+product:
+  column: "Sales_Group_Desc"
+  type: categorical
+
+product_desc:
+  column: "Sales_Group_Desc"
+  type: categorical
+tower:
+  column: "Tower"
+  type: categorical
+
+tower_desc:
+  column: "Tower_Desc"
+  type: categorical
+
+floor:
+  column: "Floor_Desc"
+  type: categorical
+
+
+
+inventory_code:
+  column: "Inventory_Code"
+  type: categorical
+
+inventory_text:
+  column: "Inventory_Text"
+  type: categorical
+
+type_desc:
+  column: "Type_Desc"
+  type: categorical
+
+type:
+  column: "Type"
+  type: categorical
+
+material_group:
+  column: "Material_Group"
+  type: categorical
+
+material:
+  column: "Material_Group"
+  type: categorical
+
+sector:
+  column: "Sector"
+  type: categorical
+
+# ----------------------------
+# CUSTOMER
+# ----------------------------
+
+sold_to_name:
+  column: "Sold_To_Name"
+  type: categorical
+
+sold_to:
+  column: "Sold_To"
+  type: categorical
+
+payer_name:
+  column: "Payer_Name"
+  type: categorical
+
+payer:
+  column: "Payer"
+  type: categorical
+
+customer_type:
+  column: "Customer_Type"
+  type: categorical
+
+co_applicant1_name:
+  column: "Co_Applicant1_Name"
+  type: categorical
+
+co_applicant1:
+  column: "Co_Applicant1"
+  type: categorical
+
+co_applicant2_name:
+  column: "Co_Applicant2_Name"
+  type: categorical
+
+co_applicant2:
+  column: "Co_Applicant2"
+  type: categorical
+
+co_applicant3_name:
+  column: "Co_Applicant3_Name"
+  type: categorical
+
+co_applicant3:
+  column: "Co_Applicant3"
+  type: categorical
+
+co_applicant4_name:
+  column: "Co_Applicant4_Name"
+  type: categorical
+
+co_applicant4:
+  column: "Co_Applicant4"
+  type: categorical
+
+co_applicant5_name:
+  column: "Co_Applicant5_Name"
+  type: categorical
+
+co_applicant5:
+  column: "Co_Applicant5"
+  type: categorical
+
+# ----------------------------
+# SALES TEAM
+# ----------------------------
+
+sales_executive_name:
+  column: "Sales_Executive_Name"
+  type: categorical
+
+sales_executive:
+  column: "Sales_Executive"
+  type: categorical
+
+back_office_executive_name:
+  column: "Back_Office_Executive_Name"
+  type: categorical
+
+back_office_executive:
+  column: "Back_Office_Executive"
+  type: categorical
+
+# ----------------------------
+# BROKER / CHANNEL
+# ----------------------------
+
+broker_name:
+  column: "Broker_Name"
+  type: categorical
+
+broker:
+  column: "Broker"
+  type: categorical
+
+sub_broker_name:
+  column: "Sub_Broker_Name"
+  type: categorical
+
+sub_broker:
+  column: "Sub_Broker"
+  type: categorical
+
+dist_channel_desc:
+  column: "Dist_Channel_Desc"
+  type: categorical
+
+distribution_channel:
+  column: "Distribution_Channel"
+  type: categorical
+
+refferal:
+  column: "Refferal"
+  type: categorical
+
+consortium_name:
+  column: "Consortium_Name"
+  type: categorical
+
+consortium:
+  column: "Consortium"
+  type: categorical
+
+# ----------------------------
+# TRANSACTION / BOOKING
+# ----------------------------
+
+sales_order:
+  column: "Sales_Order"
+  type: categorical
+
+old_booking_no:
+  column: "Old_Booking_No"
+  type: categorical
+
+booking_type:
+  column: "Booking_Type"
+  type: categorical
+
+document_type:
+  column: "Document_Type"
+  type: categorical
+
+booking_created_by:
+  column: "Booking_Created_By"
+  type: categorical
+
+po_number:
+  column: "PO_Number"
+  type: categorical
+
+total_transfer:
+  column: "Total_Transfer"
+  type: categorical
+
+# ----------------------------
+# ORGANIZATION
+# ----------------------------
+
+sales_org_desc:
+  column: "Sales_Org_Desc"
+  type: categorical
+
+sale_organization:
+  column: "Sale_Organization"
+  type: categorical
+
+division_desc:
+  column: "Division_Desc"
+  type: categorical
+
+division:
+  column: "Division_Desc"
+  type: categorical
+
+sales_group_desc:
+  column: "Sales_Group_Desc"
+  type: categorical
+
+sales_group:
+  column: "Sales_Group"
+  type: categorical
+
+sales_org:
+  column: "Sales_Org"
+  type: categorical
+
+sales_office_desc:
+  column: "Sales_Office_Desc"
+  type: categorical
+
+sales_office:
+  column: "Sales_Office"
+  type: categorical
+
+material_pricing_group:
+  column: "Material_Pricing_Group"
+  type: categorical
+
+material_pricing_group_desc:
+  column: "Material_Pricing_Group_Desc"
+  type: categorical
+
+uom:
+  column: "UoM"
+  type: categorical
+
+billing_plan:
+  column: "Billing_Plan"
+  type: categorical
+
+billing_block:
+  column: "Billing_Block"
+  type: categorical
+
+billing_block_description:
+  column: "Billing_Block_Description"
+  type: categorical
+
+old_billing_block:
+  column: "Old_Billing_Block"
+  type: categorical
+
+old_billing_block_description:
+  column: "Old_Billing_Block_Description"
+  type: categorical
+
+loan_bank:
+  column: "Loan_Bank"
+  type: categorical
+
+bank_branch:
+  column: "Bank_Branch"
+  type: categorical
+
+bank_branch1:
+  column: "Bank_Branch1"
+  type: categorical
+
+reason_for_rejection:
+  column: "Reason_for_Rejection"
+  type: categorical
+
+description:
+  column: "Description"
+  type: categorical
+
+plc_material:
+  column: "PLC_Material"
+  type: categorical
+
+plc_material_desc:
+  column: "PLC_Material_Desc"
+  type: categorical
+
+charge_type:
+  column: "Charge_Type"
+  type: categorical
+
+scheme_code:
+  column: "Scheme_Code"
+  type: categorical
+
+tax_class_1:
+  column: "Tax_Class_1"
+  type: categorical
+
+tax_class_2:
+  column: "Tax_Class_2"
+  type: categorical
+
+tax_class_3:
+  column: "Tax_Class_3"
+  type: categorical
+
+tax_class_4:
+  column: "Tax_Class_4"
+  type: categorical
+
+tax_class_5:
+  column: "Tax_Class_5"
+  type: categorical
+
+tax_class_6:
+  column: "Tax_Class_6"
+  type: categorical
+
+tax_class_7:
+  column: "Tax_Class_7"
+  type: categorical
+
+agreement_given_to_customer:
+  column: "Agreement_Given_To_Customer"
+  type: categorical
+
+agreement_prepared_on:
+  column: "Agreement_Prepared_On"
+  type: categorical
+
+allotment_letter_date:
+  column: "Allotment_Letter_Date"
+  type: categorical
+
+billing_block_changed_on:
+  column: "Billing_Block_Changed_On"
+  type: categorical
+
+completion_date:
+  column: "Completion_Date"
+  type: categorical
+
+disbursed_date:
+  column: "Disbursed_Date"
+  type: categorical
+
+document_handed_over_to_cust_or_bank:
+  column: "Document_Handed_Over_To_Cust_or_Bank"
+  type: categorical
+
+given_to_accounts:
+  column: "Given_To_Accounts"
+  type: categorical
+
+given_to_dept_head:
+  column: "Given_To_Dept_Head"
+  type: categorical
+
+given_to_dept_manager:
+  column: "Given_To_Dept_Manager"
+  type: categorical
+
+given_to_finance_director:
+  column: "Given_To_Finance_Director"
+  type: categorical
+
+handed_over_to_customer:
+  column: "Handed_Over_To_Customer"
+  type: categorical
+
+noc_date:
+  column: "NOC_Date"
+  type: categorical
+
+possession_given_on:
+  column: "Possession_Given_On"
+  type: categorical
+
+registry_date:
+  column: "Registry_Date"
+  type: categorical
+
+rejection_date:
+  column: "Rejection_Date"
+  type: categorical
+
+sanction_letter_provided_by_bank_on:
+  column: "Sanction_Letter_Provided_By_Bank_On"
+  type: categorical
+
+signed_agreement_received_on:
+  column: "Signed_Agreement_Received_On"
+  type: categorical
+
+signed_by_accounts:
+  column: "Signed_By_Accounts"
+  type: categorical
+
+signed_by_dept_head:
+  column: "Signed_By_Dept_Head"
+  type: categorical
+
+signed_by_dept_manager:
+  column: "Signed_By_Dept_Manager"
+  type: categorical
+
+tpt_ptm_sign_date:
+  column: "TPT_PTM_Sign_Date"
+  type: categorical
+
+tpt_received_date:
+  column: "TPT_Received_Date"
+  type: categorical
+
+tpt_and_ptm_given_for_sign:
+  column: "TPT_and_PTM_Given_For_Sign"
+  type: categorical
+
+# ============================================================
+# STATUS BREAKDOWN DIMENSIONS
+# ============================================================
+
+possession_status:
+  column: "CASE WHEN Possession_Given_On IS NOT NULL AND CAST(Possession_Given_On AS BIGINT) != 0 THEN 'Completed' WHEN Agreement_Prepared_On IS NOT NULL AND CAST(Agreement_Prepared_On AS BIGINT) != 0 AND (Possession_Given_On IS NULL OR CAST(Possession_Given_On AS BIGINT) = 0) THEN 'Pending' ELSE 'Not Started' END"
+  type: categorical
+
+agreement_status:
+  column: "CASE WHEN Agreement_Prepared_On IS NOT NULL AND CAST(Agreement_Prepared_On AS BIGINT) != 0 THEN 'Completed' ELSE 'Pending' END"
+  type: categorical
+
+
+cancellation_reason:
+  column: "Description"
+  type: categorical
+
+reason:
+  column: "Description"
+  type: categorical  

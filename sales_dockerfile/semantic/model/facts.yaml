@@ -1,0 +1,4 @@
+sales_fact:
+  table: "zsdva05.sales_report.sales_report_data"
+  grain: "one row per Sales_Order per Unit"
+  primary_date: "Document_Date"

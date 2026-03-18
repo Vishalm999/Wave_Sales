@@ -1,0 +1,15 @@
+# Web framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+
+# Data validation
+pydantic==2.8.2
+
+# Presto / Trino DB connector
+presto-python-client==0.8.4
+
+# IBM Watsonx AI SDK
+ibm-watsonx-ai==1.1.2
+
+# Environment variable loader
+python-dotenv==1.0.1

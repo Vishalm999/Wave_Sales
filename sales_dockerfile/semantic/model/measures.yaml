@@ -1,0 +1,117 @@
+# ============================================================
+# PRODUCTION MEASURES (physical aggregations only)
+# Compatible with SemanticRegistry
+# ============================================================
+
+# ----------------------------
+# COUNTS
+# ----------------------------
+
+sales_count:
+  column: "Sales_Order"
+  aggregation: "COUNT_DISTINCT"
+  mandatory_filters:
+    - "Sales_Order IS NOT NULL"
+    - "Booking_Type IN ('Fresh', 'Fresh (Indirect)')"
+
+unit_count:
+  column: "Inventory_Code"
+  aggregation: "COUNT_DISTINCT"
+  mandatory_filters:
+    - "Inventory_Code IS NOT NULL"
+    - "Booking_Type IN ('Fresh', 'Fresh (Indirect)')"
+
+booking_count:
+  column: "Old_Booking_No"
+  aggregation: "COUNT_DISTINCT"
+  mandatory_filters:
+    - "Old_Booking_No IS NOT NULL"
+
+customer_count:
+  column: "Sold_To"
+  aggregation: "COUNT_DISTINCT"
+
+# ----------------------------
+# REVENUE & PRICES
+# ----------------------------
+
+net_value:
+  column: "net_value"
+  aggregation: "SUM"
+  mandatory_filters:
+    - "Booking_Type IN ('Fresh', 'Fresh (Indirect)')"
+    - "net_value > 0"
+
+basic_selling_price:
+  column: "basic_selling_price"
+  aggregation: "SUM"
+
+discount:
+  sql: "CASE WHEN \"discount\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"discount\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"discount\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+broker_discount:
+  column: "broker_discount"
+  aggregation: "SUM"
+
+other_charges:
+  sql: "CASE WHEN \"other_charges\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"other_charges\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"other_charges\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+plc_amount:
+  sql: "CASE WHEN \"plc_amount\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"plc_amount\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"plc_amount\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+scheme_amount:
+  column: "scheme_amount"
+  aggregation: "SUM"
+
+loan_sanctioned_amount:
+  column: "loan_sanctioned_amount"
+  aggregation: "SUM"
+
+disbursed_amount:
+  column: "disbursed_amount"
+  aggregation: "SUM"
+
+amount_demanded:
+  sql: "CASE WHEN \"amount_demanded\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"amount_demanded\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"amount_demanded\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+amount_received:
+  sql: "CASE WHEN \"amount_received\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"amount_received\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"amount_received\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+# ----------------------------
+# AREA
+# ----------------------------
+
+area_sold:
+  column: "area"
+  aggregation: "SUM"
+  mandatory_filters:
+    - "area > 0"
+
+increased_area:
+  column: "increased_area"
+  aggregation: "SUM"
+
+decreased_area:
+  sql: "CASE WHEN \"decreased_area\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"decreased_area\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"decreased_area\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+increased_amount:
+  sql: "CASE WHEN \"increased_amount\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"increased_amount\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"increased_amount\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+# decreased_amount:  <-- REMOVED because column does not exist
+#   sql: "CASE WHEN \"decreased_amount\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"decreased_amount\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"decreased_amount\" AS DECIMAL(20, 2)) END"
+#   aggregation: "SUM"
+
+percentage_amount_received:
+  sql: "CASE WHEN \"percentage_age_amount_received\" LIKE '%-' THEN -1 * TRY_CAST(REPLACE(\"percentage_age_amount_received\", '-', '') AS DECIMAL(20, 2)) ELSE TRY_CAST(\"percentage_age_amount_received\" AS DECIMAL(20, 2)) END"
+  aggregation: "SUM"
+
+loan_sanctioned_percentage:
+  column: "loan_sanctioned_percentage"
+  aggregation: "SUM"

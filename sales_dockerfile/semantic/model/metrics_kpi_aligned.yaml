@@ -1,0 +1,2039 @@
+# # ============================================================
+# # KPI-ALIGNED METRICS (Based on User Requirements)
+# # ============================================================
+# # All "sales" KPIs = COUNT(DISTINCT Sales_Order)
+# # Base filter: Sales_Order IS NOT NULL AND ""Customer_Type"" != 'cancelled'
+# # ============================================================
+
+# # ============================================================
+# # CORE SALES COUNT METRICS (Your Primary KPIs)
+# # ============================================================
+
+
+# total_sales:
+#   description: Total number of unique valid sales orders (excludes cancelled)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   behavior: additive
+#   unit: Count
+#   business_logic: Primary KPI - count of all active sales orders
+
+# sales_count:
+#   description: Alias for total_sales - count of sales orders
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   behavior: additive
+#   unit: Count
+#   business_logic: Same as total_sales, alternative name for clarity
+
+# # ============================================================
+# # DIMENSIONAL SALES COUNT METRICS
+# # These can be used with dimensions or standalone
+# # ============================================================
+
+# project_wise_sales:
+#   description: Count of sales orders by project (use with sales_org_desc dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sales_Org_Desc IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [sales_org_desc]
+#   behavior: additive
+#   unit: Count
+
+# product_wise_sales:
+#   description: Count of sales orders by product/sales group (use with sales_group dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sales_Group IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [sales_group, sales_group_desc]
+#   behavior: additive
+#   unit: Count
+
+# sector_wise_sales:
+#   description: Count of sales orders by sector (use with sector dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sector IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [sector]
+#   behavior: additive
+#   unit: Count
+
+# booking_type_wise_sales:
+#   description: Count of sales orders by booking type (use with booking_type dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Booking_Type IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [booking_type]
+#   behavior: additive
+#   unit: Count
+
+# broker_wise_sales:
+#   description: Count of sales orders by broker (use with broker_name dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Broker_Name IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [broker_name, broker]
+#   behavior: additive
+#   unit: Count
+
+# ""Customer_Type""_wise_sales:
+#   description: Count of sales orders by customer type (use with ""Customer_Type"" dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [""Customer_Type""]
+#   behavior: additive
+#   unit: Count
+
+# dist_channel_wise_sales:
+#   description: Count of sales orders by distribution channel (use with dist_channel_desc dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Dist_Channel_Desc IS NOT NULL
+#     - LOWER(""Customer_Type"") != 'cancelled'
+#   suggested_dimensions: [dist_channel_desc, distribution_channel]
+#   behavior: additive
+#   unit: Count
+
+# division_wise_sales:
+#   description: Count of sales orders by division (use with division_desc dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Division_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [division_desc, division]
+#   behavior: additive
+#   unit: Count
+
+# floor_wise_sales:
+#   description: Count of sales orders by floor (use with floor_desc dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Floor_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [floor_desc]
+#   behavior: additive
+#   unit: Count
+
+# tower_wise_sales:
+#   description: Count of sales orders by tower (use with tower_desc dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Tower_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [tower_desc, tower]
+#   behavior: additive
+#   unit: Count
+
+# customer_name_wise_sales:
+#   description: Count of sales orders by customer name (use with sold_to_name dimension)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sold_To_Name IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [sold_to_name, sold_to]
+#   behavior: additive
+#   unit: Count
+
+# # ============================================================
+# # REVENUE/VALUE METRICS (When "value" is explicitly asked)
+# # ============================================================
+
+# sales_value:
+#   description: Total sales value/revenue in INR (excludes cancelled)
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: INR
+#   business_logic: Total revenue from active sales orders
+
+# project_wise_sales_value:
+#   description: Sales revenue by project
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sales_Org_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [sales_org_desc]
+#   behavior: additive
+#   unit: INR
+
+# product_wise_sales_value:
+#   description: Sales revenue by product/sales group
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sales_Group IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [sales_group, sales_group_desc]
+#   behavior: additive
+#   unit: INR
+
+# sector_wise_sales_value:
+#   description: Sales revenue by sector
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sector IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [sector]
+#   behavior: additive
+#   unit: INR
+
+# booking_type_wise_sales_value:
+#   description: Sales revenue by booking type
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Booking_Type IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [booking_type]
+#   behavior: additive
+#   unit: INR
+
+# broker_wise_sales_value:
+#   description: Sales revenue by broker
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Broker_Name IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [broker_name, broker]
+#   behavior: additive
+#   unit: INR
+
+# dist_channel_wise_sales_value:
+#   description: Sales revenue by distribution channel
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Dist_Channel_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [dist_channel_desc, distribution_channel]
+#   behavior: additive
+#   unit: INR
+
+# division_wise_sales_value:
+#   description: Sales revenue by division
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Division_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [division_desc, division]
+#   behavior: additive
+#   unit: INR
+
+# floor_wise_sales_value:
+#   description: Sales revenue by floor
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Floor_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [floor_desc]
+#   behavior: additive
+#   unit: INR
+
+# tower_wise_sales_value:
+#   description: Sales revenue by tower
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Tower_Desc IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [tower_desc, tower]
+#   behavior: additive
+#   unit: INR
+
+# customer_name_wise_sales_value:
+#   description: Sales revenue by customer name
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Sold_To_Name IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   suggested_dimensions: [sold_to_name, sold_to]
+#   behavior: additive
+#   unit: INR
+
+# # ============================================================
+# # ADDITIONAL USEFUL METRICS
+# # ============================================================
+
+# total_sales_all:
+#   description: Total count including cancelled and transferred (for comparison)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#   behavior: additive
+#   unit: Count
+
+# cancellations:
+#   description: Total cancelled bookings
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - LOWER("Customer_Type") = 'cancelled'
+#   behavior: additive
+#   unit: Count
+
+# cancellation_value:
+#   description: Total value of cancelled bookings
+#   expression: SUM(Net_Value)
+#   filters:
+#     - LOWER("Customer_Type") = 'cancelled'
+#   behavior: additive
+#   unit: INR
+
+# cancellation_rate:
+#   description: Percentage of bookings cancelled
+#   expression: |
+#     CAST(COUNT(DISTINCT CASE WHEN LOWER("Customer_Type") = 'cancelled' THEN Sales_Order END) AS DOUBLE)
+#     /
+#     NULLIF(COUNT(DISTINCT Sales_Order), 0) * 100
+#   behavior: ratio
+#   unit: Percentage
+
+# # ============================================================
+# # AREA METRICS
+# # ============================================================
+
+# total_area_sold:
+#   description: Total area sold in square feet (excludes cancelled)
+#   expression: SUM(Area)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Area > 0
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: Sq.Ft
+
+# average_rate_per_sqft:
+#   description: Average selling rate per square foot
+#   expression: |
+#     SUM(Net_Value) / NULLIF(SUM(Area), 0)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - Area > 0
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: ratio
+#   unit: INR/Sq.Ft
+
+# # ============================================================
+# # COLLECTION METRICS
+# # ============================================================
+
+# amount_demanded_total:
+#   description: Total amount demanded/billed
+#   expression: |
+#     SUM(CASE 
+#       WHEN Amount_Demanded LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Demanded, '-', '') AS DECIMAL(20, 2))
+#       ELSE TRY_CAST(Amount_Demanded AS DECIMAL(20, 2))
+#     END)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: INR
+
+# amount_received_total:
+#   description: Total amount received from customers
+#   expression: |
+#     SUM(CASE 
+#       WHEN Amount_Received LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Received, '-', '') AS DECIMAL(20, 2))
+#       ELSE TRY_CAST(Amount_Received AS DECIMAL(20, 2))
+#     END)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: INR
+
+# collection_efficiency:
+#   description: Collection efficiency percentage (Received/Demanded)
+#   expression: |
+#     (SUM(CASE 
+#       WHEN Amount_Received LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Received, '-', '') AS DECIMAL(20, 2))
+#       ELSE TRY_CAST(Amount_Received AS DECIMAL(20, 2))
+#     END) 
+#     / 
+#     NULLIF(SUM(CASE 
+#       WHEN Amount_Demanded LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Demanded, '-', '') AS DECIMAL(20, 2))
+#       ELSE TRY_CAST(Amount_Demanded AS DECIMAL(20, 2))
+#     END), 0)) * 100
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: ratio
+#   unit: Percentage
+
+# # ============================================================
+# # DISCOUNT & CHARGES
+# # ============================================================
+
+# total_discounts:
+#   description: Total discount amount offered
+#   expression: |
+#     SUM(CASE 
+#       WHEN Discount LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Discount, '-', '') AS DECIMAL(20, 2))
+#       ELSE TRY_CAST(Discount AS DECIMAL(20, 2))
+#     END)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: INR
+
+# broker_commission:
+#   description: Total broker commission/discount
+#   expression: |
+#     SUM(CASE 
+#       WHEN Broker_Discount LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Broker_Discount, '-', '') AS DECIMAL(20, 2))
+#       ELSE TRY_CAST(Broker_Discount AS DECIMAL(20, 2))
+#     END)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: INR
+
+# # ============================================================
+# # LOAN METRICS
+# # ============================================================
+
+# loan_sanctioned_total:
+#   description: Total home loan sanctioned amount
+#   expression: SUM(Loan_Sanctioned_Amount)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Loan_Sanctioned_Amount > 0
+#   behavior: additive
+#   unit: INR
+
+# average_loan_percentage:
+#   description: Average loan-to-value ratio
+#   expression: AVG(Loan_Sanctioned_percentage)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Loan_Sanctioned_percentage > 0
+#   behavior: average
+#   unit: Percentage
+
+# # ============================================================
+# # BOOKING TYPE SPECIFIC
+# # ============================================================
+
+# fresh_bookings:
+#   description: Count of fresh bookings only
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER(Booking_Type) = 'fresh'
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: Count
+
+# fresh_bookings_value:
+#   description: Revenue from fresh bookings
+#   expression: SUM(Net_Value)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER(Booking_Type) = 'fresh'
+#     - LOWER("Customer_Type") != 'cancelled'
+#   behavior: additive
+#   unit: INR
+
+# # transferred_units:
+# #   description: Count of transferred units
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - "(LOWER("Customer_Type") = 'transferred' OR Total_Transfer = '1')"
+# #   behavior: additive
+# #   unit: Count
+
+# # transferred_value:
+# #   description: Value of transferred units
+# #   expression: SUM(Net_Value)
+# #   filters:
+# #     - "(LOWER("Customer_Type") = 'transferred' OR Total_Transfer = '1')"
+# #   behavior: additive
+# #   unit: INR
+
+
+# transferred_sales:
+#   description: Count of unique customers (Sold_To) who transferred units to different payers
+#   expression: COUNT(DISTINCT Sold_To_Name)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name != Payer_Name
+#     - Sold_To_Name IS NOT NULL
+#     - Payer_Name IS NOT NULL
+#   behavior: additive
+#   unit: Count
+#   business_logic: Counts unique original buyers (Sold_To_Name) who transferred units when Sold_To differs from Payer
+
+# transfer_product_wise:
+#   description: Product-wise count of unique customers who transferred (Sold_To != Payer) - use with sales_group_desc dimension
+#   expression: COUNT(DISTINCT Sold_To_Name)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name != Payer_Name
+#     - Sold_To_Name IS NOT NULL
+#     - Payer_Name IS NOT NULL
+#   suggested_dimensions: [sales_group_desc]
+#   behavior: additive
+#   unit: Count
+#   business_logic: For product-wise transfer analysis - counts unique transferred customers by product (Sales_Group_Desc)
+
+# transferred_sales_count:
+#   description: Count of sales orders that were transferred (Sold_To != Payer)
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name != Payer_Name
+#     - Sold_To_Name IS NOT NULL
+#     - Payer_Name IS NOT NULL
+#   behavior: additive
+#   unit: Count
+#   business_logic: Alternative metric - counts sales orders (not customers) for transfers
+
+# transferred_sales_value:
+#   description: Total value of transferred sales (Sold_To != Payer)
+#   expression: SUM("net_value")
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name != Payer_Name
+#     - Sold_To_Name IS NOT NULL
+#     - Payer_Name IS NOT NULL
+#   behavior: additive
+#   unit: INR
+#   business_logic: Total revenue from transferred units
+
+# transfer_recipients:
+#   description: Count of unique payers who received transferred units
+#   expression: COUNT(DISTINCT Payer_Name)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name != Payer_Name
+#     - Sold_To_Name IS NOT NULL
+#     - Payer_Name IS NOT NULL
+#   behavior: additive
+#   unit: Count
+#   business_logic: Counts unique customers who received transfers (final payers)
+
+# non_transferred_sales:
+#   description: Count of unique customers with normal sales (Sold_To = Payer, no transfer)
+#   expression: COUNT(DISTINCT Sold_To_Name)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name = Payer_Name
+#   behavior: additive
+#   unit: Count
+#   business_logic: Regular customers without any transfer involved
+
+# transfer_rate:
+#   description: Percentage of customers who transferred units
+#   expression: |
+#     CAST(COUNT(DISTINCT CASE WHEN Sold_To_Name != Payer_Name THEN Sold_To_Name END) AS DOUBLE)
+#     /
+#     NULLIF(COUNT(DISTINCT Sold_To_Name), 0) * 100
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name IS NOT NULL
+#     - Payer_Name IS NOT NULL
+#   behavior: ratio
+#   unit: Percentage
+#   business_logic: Shows what percentage of customers transferred their units
+
+
+# # # ============================================================
+# # # POSSESSION JOURNEY METRICS
+# # # ============================================================
+
+# # possession_pending_count:
+# #   description: Count of sales where possession has NOT been given yet (agreement given but possession pending)
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NULL
+# #   behavior: additive
+# #   unit: Count
+# #   business_logic: Sales with agreement signed but possession not yet handed over
+
+# # possession_given_count:
+# #   description: Count of sales where possession has been given
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NOT NULL
+# #   behavior: additive
+# #   unit: Count
+# #   business_logic: Completed sales with possession handed over
+
+# # agreement_pending_count:
+# #   description: Count of sales where agreement has NOT been created yet
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NULL
+# #   behavior: additive
+# #   unit: Count
+# #   business_logic: Sales completed but agreement not yet prepared
+
+# # agreement_given_count:
+# #   description: Count of sales where agreement has been created
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #   behavior: additive
+# #   unit: Count
+# #   business_logic: Sales with agreement signed (possession may or may not be given)
+
+# # # ────────────────────────────────────────────────────────
+# # # POSSESSION STATUS BREAKDOWN (Categorical)
+# # # ────────────────────────────────────────────────────────
+
+# # possession_status_breakdown:
+# #   description: Sales grouped by possession status
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   group_by: |
+# #     CASE 
+# #       WHEN Possession_Given_On IS NOT NULL THEN 'Possession Given'
+# #       WHEN Agreement_Prepared_On IS NOT NULL AND Possession_Given_On IS NULL THEN 'Agreement Given, Possession Pending'
+# #       WHEN Agreement_Prepared_On IS NULL THEN 'Agreement Pending'
+# #       ELSE 'Unknown'
+# #     END
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #   behavior: additive
+# #   unit: Count
+# #   business_logic: Categorizes sales by their current stage in possession journey
+
+# # # ────────────────────────────────────────────────────────
+# # # COMPLETION RATE METRICS
+# # # ────────────────────────────────────────────────────────
+
+# # possession_completion_rate:
+# #   description: Percentage of sales that have completed possession handover
+# #   expression: |
+# #     CAST(COUNT(DISTINCT CASE WHEN Possession_Given_On IS NOT NULL THEN Sales_Order END) AS DOUBLE)
+# #     / NULLIF(COUNT(DISTINCT Sales_Order), 0) * 100
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #   behavior: ratio
+# #   unit: Percentage
+# #   business_logic: What % of sales with agreements have received possession
+
+# # agreement_completion_rate:
+# #   description: Percentage of sales that have agreement prepared
+# #   expression: |
+# #     CAST(COUNT(DISTINCT CASE WHEN Agreement_Prepared_On IS NOT NULL THEN Sales_Order END) AS DOUBLE)
+# #     / NULLIF(COUNT(DISTINCT Sales_Order), 0) * 100
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #   behavior: ratio
+# #   unit: Percentage
+# #   business_logic: What % of sales have agreements prepared
+
+# # # ────────────────────────────────────────────────────────
+# # # DIMENSIONAL POSSESSION METRICS
+# # # ────────────────────────────────────────────────────────
+
+# # tower_wise_possession_pending:
+# #   description: Possession pending count by tower
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NULL
+# #     - Tower_Desc IS NOT NULL
+# #   suggested_dimensions: [tower_desc]
+# #   behavior: additive
+# #   unit: Count
+
+# # tower_wise_possession_given:
+# #   description: Possession given count by tower
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NOT NULL
+# #     - Tower_Desc IS NOT NULL
+# #   suggested_dimensions: [tower_desc]
+# #   behavior: additive
+# #   unit: Count
+
+# # floor_wise_possession_pending:
+# #   description: Possession pending count by floor
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NULL
+# #     - Floor_Desc IS NOT NULL
+# #   suggested_dimensions: [floor_desc]
+# #   behavior: additive
+# #   unit: Count
+
+# # product_wise_possession_pending:
+# #   description: Possession pending count by product
+# #   expression: COUNT(DISTINCT Sales_Order)
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NULL
+# #     - Sales_Group_Desc IS NOT NULL
+# #   suggested_dimensions: [sales_group_desc]
+# #   behavior: additive
+# #   unit: Count
+
+# # # ────────────────────────────────────────────────────────
+# # # TIME-BASED METRICS (TAT - Turn Around Time)
+# # # ────────────────────────────────────────────────────────
+
+# # average_days_to_agreement:
+# #   description: Average days from sale to agreement preparation
+# #   expression: |
+# #     AVG(
+# #       CAST(
+# #         date_diff('day', 
+# #           TRY(DATE_PARSE(CAST(Document_Date AS VARCHAR), '%Y%m%d')),
+# #           Agreement_Prepared_On
+# #         ) AS DOUBLE
+# #       )
+# #     )
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #   behavior: average
+# #   unit: Days
+# #   business_logic: How long does it take to prepare agreement after sale
+
+# # average_days_to_possession:
+# #   description: Average days from agreement to possession handover
+# #   expression: |
+# #     AVG(
+# #       CAST(
+# #         date_diff('day', 
+# #           Agreement_Prepared_On,
+# #           Possession_Given_On
+# #         ) AS DOUBLE
+# #       )
+# #     )
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NOT NULL
+# #   behavior: average
+# #   unit: Days
+# #   business_logic: How long does it take to give possession after agreement
+
+# # average_total_cycle_time:
+# #   description: Average days from sale to possession (total journey time)
+# #   expression: |
+# #     AVG(
+# #       CAST(
+# #         date_diff('day', 
+# #           TRY(DATE_PARSE(CAST(Document_Date AS VARCHAR), '%Y%m%d')),
+# #           Possession_Given_On
+# #         ) AS DOUBLE
+# #       )
+# #     )
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Possession_Given_On IS NOT NULL
+# #   behavior: average
+# #   unit: Days
+# #   business_logic: Total time from sale to possession completion
+
+# # # ────────────────────────────────────────────────────────
+# # # VALUE-BASED METRICS
+# # # ────────────────────────────────────────────────────────
+
+# # possession_pending_value:
+# #   description: Total value of sales with possession pending
+# #   expression: SUM("net_value")
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NOT NULL
+# #     - Possession_Given_On IS NULL
+# #   behavior: additive
+# #   unit: INR
+# #   business_logic: Revenue locked in pending possessions
+
+# # possession_given_value:
+# #   description: Total value of sales with possession completed
+# #   expression: SUM("net_value")
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Possession_Given_On IS NOT NULL
+# #   behavior: additive
+# #   unit: INR
+
+# # agreement_pending_value:
+# #   description: Total value of sales with agreement pending
+# #   expression: SUM("net_value")
+# #   filters:
+# #     - Sales_Order IS NOT NULL
+# #     - LOWER("Customer_Type") != 'cancelled'
+# #     - Document_Date IS NOT NULL
+# #     - Agreement_Prepared_On IS NULL
+# #   behavior: additive
+# #   unit: INR
+
+
+
+
+# # ============================================================
+# # POSSESSION JOURNEY METRICS
+# # ============================================================
+
+# possession_pending_count:
+#   description: Count of sales where possession has NOT been given yet (agreement given but possession pending)
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NULL OR "Possession_Given_On" = 0)
+#   behavior: additive
+#   unit: Count
+#   business_logic: Sales with agreement signed but possession not yet handed over
+
+# possession_given_count:
+#   description: Count of sales where possession has been given
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0)
+#   behavior: additive
+#   unit: Count
+#   business_logic: Completed sales with possession handed over
+
+# agreement_pending_count:
+#   description: Count of sales where agreement has NOT been created yet
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - (Agreement_Prepared_On IS NULL OR "Agreement_Prepared_On" = 0)
+#   behavior: additive
+#   unit: Count
+#   business_logic: Sales completed but agreement not yet prepared
+
+# agreement_given_count:
+#   description: Count of sales where agreement has been created
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#   behavior: additive
+#   unit: Count
+#   business_logic: Sales with agreement signed (possession may or may not be given)
+
+# # ────────────────────────────────────────────────────────
+# # POSSESSION STATUS BREAKDOWN (Categorical)
+# # ────────────────────────────────────────────────────────
+
+# possession_status_breakdown:
+#   description: Sales grouped by possession status
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   group_by: |
+#     CASE 
+#       WHEN ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0) THEN 'Possession Given'
+#       WHEN ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0) AND ("Possession_Given_On" IS NULL OR "Possession_Given_On" = 0) THEN 'Agreement Given, Possession Pending'
+#       WHEN ("Agreement_Prepared_On" IS NULL OR "Agreement_Prepared_On" = 0) THEN 'Agreement Pending'
+#       ELSE 'Unknown'
+#     END
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#   behavior: additive
+#   unit: Count
+#   business_logic: Categorizes sales by their current stage in possession journey
+
+# # ────────────────────────────────────────────────────────
+# # COMPLETION RATE METRICS
+# # ────────────────────────────────────────────────────────
+
+# possession_completion_rate:
+#   description: Percentage of sales that have completed possession handover
+#   expression: |
+#     CAST(COUNT(DISTINCT CASE WHEN ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0) THEN Sales_Order END) AS DOUBLE)
+#     / NULLIF(COUNT(DISTINCT "Sales_Order"), 0) * 100
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#   behavior: ratio
+#   unit: Percentage
+#   business_logic: What % of sales with agreements have received possession
+
+# agreement_completion_rate:
+#   description: Percentage of sales that have agreement prepared
+#   expression: |
+#     CAST(COUNT(DISTINCT CASE WHEN ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0) THEN Sales_Order END) AS DOUBLE)
+#     / NULLIF(COUNT(DISTINCT "Sales_Order"), 0) * 100
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#   behavior: ratio
+#   unit: Percentage
+#   business_logic: What % of sales have agreements prepared
+
+# # ────────────────────────────────────────────────────────
+# # DIMENSIONAL POSSESSION METRICS
+# # ────────────────────────────────────────────────────────
+
+# tower_wise_possession_pending:
+#   description: Possession pending count by tower
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NULL OR "Possession_Given_On" = 0)
+#     - Tower_Desc IS NOT NULL
+#   suggested_dimensions: [tower_desc]
+#   behavior: additive
+#   unit: Count
+
+# tower_wise_possession_given:
+#   description: Possession given count by tower
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0)
+#     - Tower_Desc IS NOT NULL
+#   suggested_dimensions: [tower_desc]
+#   behavior: additive
+#   unit: Count
+
+# floor_wise_possession_pending:
+#   description: Possession pending count by floor
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NULL OR "Possession_Given_On" = 0)
+#     - Floor_Desc IS NOT NULL
+#   suggested_dimensions: [floor_desc]
+#   behavior: additive
+#   unit: Count
+
+# product_wise_possession_pending:
+#   description: Possession pending count by product
+#   expression: COUNT(DISTINCT "Sales_Order")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NULL OR "Possession_Given_On" = 0)
+#     - Sales_Group_Desc IS NOT NULL
+#   suggested_dimensions: [sales_group_desc]
+#   behavior: additive
+#   unit: Count
+
+# # ────────────────────────────────────────────────────────
+# # TIME-BASED METRICS (TAT - Turn Around Time)
+# # ────────────────────────────────────────────────────────
+
+# average_days_to_agreement:
+#   description: Average days from sale to agreement preparation
+#   expression: |
+#     AVG(
+#       CAST(
+#         date_diff('day',  
+#           TRY(DATE_PARSE(CAST("Document_Date" AS VARCHAR), '%Y%m%d')),
+#           "Agreement_Prepared_On"
+#         ) AS DOUBLE
+#       )
+#     )
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#   behavior: average
+#   unit: Days
+#   business_logic: How long does it take to prepare agreement after sale
+
+# average_days_to_possession:
+#   description: Average days from agreement to possession handover
+#   expression: |
+#     AVG(
+#       CAST(
+#         date_diff('day',  
+#           "Agreement_Prepared_On",
+#           "Possession_Given_On"
+#         ) AS DOUBLE
+#       )
+#     )
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0)
+#   behavior: average
+#   unit: Days
+#   business_logic: How long does it take to give possession after agreement
+
+# average_total_cycle_time:
+#   description: Average days from sale to possession (total journey time)
+#   expression: |
+#     AVG(
+#       CAST(
+#         date_diff('day',  
+#           TRY(DATE_PARSE(CAST("Document_Date" AS VARCHAR), '%Y%m%d')),
+#           Possession_Given_On
+#         ) AS DOUBLE
+#       )
+#     )
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0)
+#   behavior: average
+#   unit: Days
+#   business_logic: Total time from sale to possession completion
+
+# # ────────────────────────────────────────────────────────
+# # VALUE-BASED METRICS
+# # ────────────────────────────────────────────────────────
+
+# possession_pending_value:
+#   description: Total value of sales with possession pending
+#   expression: SUM("Net_Value")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Agreement_Prepared_On" IS NOT NULL AND "Agreement_Prepared_On" != 0)
+#     - ("Possession_Given_On" IS NULL OR "Possession_Given_On" = 0)
+#   behavior: additive
+#   unit: INR
+#   business_logic: Revenue locked in pending possessions
+
+# possession_given_value:
+#   description: Total value of sales with possession completed
+#   expression: SUM("Net_Value")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - ("Possession_Given_On" IS NOT NULL AND "Possession_Given_On" != 0)
+#   behavior: additive
+#   unit: INR
+
+# agreement_pending_value:
+#   description: Total value of sales with agreement pending
+#   expression: SUM("Net_Value")
+#   filters:
+#     - "Sales_Order" IS NOT NULL
+#     - LOWER(CAST(""Customer_Type"" AS VARCHAR)) != 'cancelled'
+#     - "Document_Date" IS NOT NULL
+#     - (Agreement_Prepared_On IS NULL OR "Agreement_Prepared_On" = 0)
+#   behavior: additive
+#   unit: INR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ============================================================
+# KPI-ALIGNED METRICS (Based on User Requirements)
+# ============================================================
+# All "sales" KPIs = COUNT(DISTINCT Sales_Order)
+# Base filter: Sales_Order IS NOT NULL AND Customer_Type != 'cancelled'
+# ============================================================
+
+# ============================================================
+# CORE SALES COUNT METRICS (Your Primary KPIs)
+# ============================================================
+
+total_sales:
+  description: Total number of unique valid sales orders (excludes cancelled)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: Count
+  business_logic: Primary KPI - count of all active sales orders
+
+sales_count:
+  description: Alias for total_sales - count of sales orders
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: Count
+  business_logic: Same as total_sales, alternative name for clarity
+
+# ============================================================
+# DIMENSIONAL SALES COUNT METRICS
+# These can be used with dimensions or standalone
+# ============================================================
+
+project_wise_sales:
+  description: Count of sales orders by project (use with sales_org_desc dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sales_Org_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sales_org_desc]
+  behavior: additive
+  unit: Count
+
+product_wise_sales:
+  description: Count of sales orders by product/sales group (use with sales_group dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sales_Group IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sales_group, sales_group_desc]
+  behavior: additive
+  unit: Count
+
+sector_wise_sales:
+  description: Count of sales orders by sector (use with sector dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sector IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sector]
+  behavior: additive
+  unit: Count
+
+booking_type_wise_sales:
+  description: Count of sales orders by booking type (use with booking_type dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Booking_Type IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [booking_type]
+  behavior: additive
+  unit: Count
+
+broker_wise_sales:
+  description: Count of sales orders by broker (use with broker_name dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Broker_Name IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [broker_name, broker]
+  behavior: additive
+  unit: Count
+
+customer_type_wise_sales:
+  description: Count of sales orders by customer type (use with customer_type dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [customer_type]
+  behavior: additive
+  unit: Count
+
+dist_channel_wise_sales:
+  description: Count of sales orders by distribution channel (use with dist_channel_desc dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Dist_Channel_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [dist_channel_desc, distribution_channel]
+  behavior: additive
+  unit: Count
+
+division_wise_sales:
+  description: Count of sales orders by division (use with division_desc dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Division_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [division_desc, division]
+  behavior: additive
+  unit: Count
+
+floor_wise_sales:
+  description: Count of sales orders by floor (use with floor_desc dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Floor_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [floor_desc]
+  behavior: additive
+  unit: Count
+
+tower_wise_sales:
+  description: Count of sales orders by tower (use with tower_desc dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Tower_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [tower_desc, tower]
+  behavior: additive
+  unit: Count
+
+customer_name_wise_sales:
+  description: Count of sales orders by customer name (use with sold_to_name dimension)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sold_To_Name IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sold_to_name, sold_to]
+  behavior: additive
+  unit: Count
+
+# ============================================================
+# REVENUE/VALUE METRICS (When "value" is explicitly asked)
+# ============================================================
+
+sales_value:
+  description: Total sales value/revenue in INR (excludes cancelled)
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: INR
+  business_logic: Total revenue from active sales orders
+
+project_wise_sales_value:
+  description: Sales revenue by project
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sales_Org_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sales_org_desc]
+  behavior: additive
+  unit: INR
+
+product_wise_sales_value:
+  description: Sales revenue by product/sales group
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sales_Group IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sales_group, sales_group_desc]
+  behavior: additive
+  unit: INR
+
+sector_wise_sales_value:
+  description: Sales revenue by sector
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sector IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sector]
+  behavior: additive
+  unit: INR
+
+booking_type_wise_sales_value:
+  description: Sales revenue by booking type
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Booking_Type IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [booking_type]
+  behavior: additive
+  unit: INR
+
+broker_wise_sales_value:
+  description: Sales revenue by broker
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Broker_Name IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [broker_name, broker]
+  behavior: additive
+  unit: INR
+
+dist_channel_wise_sales_value:
+  description: Sales revenue by distribution channel
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Dist_Channel_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [dist_channel_desc, distribution_channel]
+  behavior: additive
+  unit: INR
+
+division_wise_sales_value:
+  description: Sales revenue by division
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Division_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [division_desc]
+  behavior: additive
+  unit: INR
+
+floor_wise_sales_value:
+  description: Sales revenue by floor
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Floor_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [floor_desc]
+  behavior: additive
+  unit: INR
+
+tower_wise_sales_value:
+  description: Sales revenue by tower
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Tower_Desc IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [tower_desc, tower]
+  behavior: additive
+  unit: INR
+
+customer_name_wise_sales_value:
+  description: Sales revenue by customer name
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Sold_To_Name IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  suggested_dimensions: [sold_to_name, sold_to]
+  behavior: additive
+  unit: INR
+
+# ============================================================
+# ADDITIONAL USEFUL METRICS
+# ============================================================
+
+total_sales_all:
+  description: Total count including cancelled and transferred (for comparison)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+  behavior: additive
+  unit: Count
+
+cancellations:
+  description: Total cancelled bookings
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - LOWER("Customer_Type") = 'cancelled'
+  behavior: additive
+  unit: Count
+
+cancellation_value:
+  description: Total value of cancelled bookings
+  expression: SUM(Net_Value)
+  filters:
+    - LOWER("Customer_Type") = 'cancelled'
+  behavior: additive
+  unit: INR
+
+cancellation_rate:
+  description: Percentage of bookings cancelled
+  expression: |
+    CAST(COUNT(DISTINCT CASE WHEN LOWER("Customer_Type") = 'cancelled' THEN Sales_Order END) AS DOUBLE)
+    /
+    NULLIF(COUNT(DISTINCT Sales_Order), 0) * 100
+  behavior: ratio
+  unit: Percentage
+
+# ============================================================
+# AREA METRICS
+# ============================================================
+
+total_area_sold:
+  description: Total area sold in square feet (excludes cancelled)
+  expression: SUM(Area)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Area > 0
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: Sq.Ft
+
+average_rate_per_sqft:
+  description: Average selling rate per square foot
+  expression: |
+    SUM(Net_Value) / NULLIF(SUM(Area), 0)
+  filters:
+    - Sales_Order IS NOT NULL
+    - Area > 0
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: ratio
+  unit: INR/Sq.Ft
+
+# ============================================================
+# COLLECTION METRICS
+# ============================================================
+
+amount_demanded_total:
+  description: Total amount demanded/billed
+  expression: |
+    SUM(CASE 
+      WHEN Amount_Demanded LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Demanded, '-', '') AS DECIMAL(20, 2))
+      ELSE TRY_CAST(Amount_Demanded AS DECIMAL(20, 2))
+    END)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: INR
+
+amount_received_total:
+  description: Total amount received from customers
+  expression: |
+    SUM(CASE 
+      WHEN Amount_Received LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Received, '-', '') AS DECIMAL(20, 2))
+      ELSE TRY_CAST(Amount_Received AS DECIMAL(20, 2))
+    END)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: INR
+
+collection_efficiency:
+  description: Collection efficiency percentage (Received/Demanded)
+  expression: |
+    (SUM(CASE 
+      WHEN Amount_Received LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Received, '-', '') AS DECIMAL(20, 2))
+      ELSE TRY_CAST(Amount_Received AS DECIMAL(20, 2))
+    END) 
+    / 
+    NULLIF(SUM(CASE 
+      WHEN Amount_Demanded LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Amount_Demanded, '-', '') AS DECIMAL(20, 2))
+      ELSE TRY_CAST(Amount_Demanded AS DECIMAL(20, 2))
+    END), 0)) * 100
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: ratio
+  unit: Percentage
+
+# ============================================================
+# DISCOUNT & CHARGES
+# ============================================================
+
+total_discounts:
+  description: Total discount amount offered
+  expression: |
+    SUM(CASE 
+      WHEN Discount LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Discount, '-', '') AS DECIMAL(20, 2))
+      ELSE TRY_CAST(Discount AS DECIMAL(20, 2))
+    END)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: INR
+
+broker_commission:
+  description: Total broker commission/discount
+  expression: |
+    SUM(CASE 
+      WHEN Broker_Discount LIKE '%-' THEN -1 * TRY_CAST(REPLACE(Broker_Discount, '-', '') AS DECIMAL(20, 2))
+      ELSE TRY_CAST(Broker_Discount AS DECIMAL(20, 2))
+    END)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: INR
+
+# ============================================================
+# LOAN METRICS
+# ============================================================
+
+loan_sanctioned_total:
+  description: Total home loan sanctioned amount
+  expression: SUM(Loan_Sanctioned_Amount)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Loan_Sanctioned_Amount > 0
+  behavior: additive
+  unit: INR
+
+average_loan_percentage:
+  description: Average loan-to-value ratio
+  expression: AVG(Loan_Sanctioned_percentage)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Loan_Sanctioned_percentage > 0
+  behavior: average
+  unit: Percentage
+
+# ============================================================
+# BOOKING TYPE SPECIFIC
+# ============================================================
+
+fresh_bookings:
+  description: Count of fresh bookings only
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER(Booking_Type) = 'fresh'
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: Count
+
+fresh_bookings_value:
+  description: Revenue from fresh bookings
+  expression: SUM(Net_Value)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER(Booking_Type) = 'fresh'
+    - LOWER("Customer_Type") != 'cancelled'
+  behavior: additive
+  unit: INR
+
+# transferred_units:
+#   description: Count of transferred units
+#   expression: COUNT(DISTINCT Sales_Order)
+#   filters:
+#     - "(LOWER("Customer_Type") = 'transferred' OR Total_Transfer = '1')"
+#   behavior: additive
+#   unit: Count
+
+# transferred_value:
+#   description: Value of transferred units
+#   expression: SUM(Net_Value)
+#   filters:
+#     - "(LOWER("Customer_Type") = 'transferred' OR Total_Transfer = '1')"
+#   behavior: additive
+#   unit: INR
+
+
+transferred_sales:
+  description: Count of unique customers (Sold_To) who transferred units to different payers
+  expression: COUNT(DISTINCT Sold_To_Name)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Sold_To_Name != Payer_Name
+    - Sold_To_Name IS NOT NULL
+    - Payer_Name IS NOT NULL
+  behavior: additive
+  unit: Count
+  business_logic: Counts unique original buyers (Sold_To_Name) who transferred units when Sold_To differs from Payer
+
+transfer_product_wise:
+  description: Product-wise count of unique customers who transferred (Sold_To != Payer) - use with sales_group_desc dimension
+  expression: COUNT(DISTINCT Sold_To_Name)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Sold_To_Name != Payer_Name
+    - Sold_To_Name IS NOT NULL
+    - Payer_Name IS NOT NULL
+  suggested_dimensions: [sales_group_desc]
+  behavior: additive
+  unit: Count
+  business_logic: For product-wise transfer analysis - counts unique transferred customers by product (Sales_Group_Desc)
+
+transferred_sales_count:
+  description: Count of sales orders that were transferred (Sold_To != Payer)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Sold_To_Name != Payer_Name
+    - Sold_To_Name IS NOT NULL
+    - Payer_Name IS NOT NULL
+  behavior: additive
+  unit: Count
+  business_logic: Alternative metric - counts sales orders (not customers) for transfers
+
+transferred_sales_value:
+  description: Total value of transferred sales (Sold_To != Payer)
+  expression: SUM("net_value")
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Sold_To_Name != Payer_Name
+    - Sold_To_Name IS NOT NULL
+    - Payer_Name IS NOT NULL
+  behavior: additive
+  unit: INR
+  business_logic: Total revenue from transferred units
+
+transfer_recipients:
+  description: Count of unique payers who received transferred units
+  expression: COUNT(DISTINCT Payer_Name)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Sold_To_Name != Payer_Name
+    - Sold_To_Name IS NOT NULL
+    - Payer_Name IS NOT NULL
+  behavior: additive
+  unit: Count
+  business_logic: Counts unique customers who received transfers (final payers)
+
+# non_transferred_sales:
+#   description: Count of unique customers with normal sales (Sold_To = Payer, no transfer)
+#   expression: COUNT(DISTINCT Sold_To_Name)
+#   filters:
+#     - Sales_Order IS NOT NULL
+#     - LOWER("Customer_Type") != 'cancelled'
+#     - Sold_To_Name = Payer_Name
+#   behavior: additive
+#   unit: Count
+#   business_logic: Regular customers without any transfer involved
+
+transfer_rate:
+  description: Percentage of customers who transferred units
+  expression: |
+    CAST(COUNT(DISTINCT CASE WHEN Sold_To_Name != Payer_Name THEN Sold_To_Name END) AS DOUBLE)
+    /
+    NULLIF(COUNT(DISTINCT Sold_To_Name), 0) * 100
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Sold_To_Name IS NOT NULL
+    - Payer_Name IS NOT NULL
+  behavior: ratio
+  unit: Percentage
+  business_logic: Shows what percentage of customers transferred their units
+
+
+# ============================================================
+# POSSESSION JOURNEY METRICS
+# ============================================================
+
+possession_pending_count:
+  description: Count of sales where possession has NOT been given yet (agreement given but possession pending)
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NULL OR Possession_Given_On = 0)
+  behavior: additive
+  unit: Count
+  business_logic: Sales with agreement signed but possession not yet handed over
+
+possession_given_count:
+  description: Count of sales where possession has been given
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0)
+  behavior: additive
+  unit: Count
+  business_logic: Completed sales with possession handed over
+
+agreement_pending_count:
+  description: Count of sales where agreement has NOT been created yet
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NULL OR Agreement_Prepared_On = 0)
+  behavior: additive
+  unit: Count
+  business_logic: Sales completed but agreement not yet prepared
+
+agreement_given_count:
+  description: Count of sales where agreement has been created
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+  behavior: additive
+  unit: Count
+  business_logic: Sales with agreement signed (possession may or may not be given)
+
+# ────────────────────────────────────────────────────────
+# POSSESSION STATUS BREAKDOWN (Categorical)
+# ────────────────────────────────────────────────────────
+
+possession_status_breakdown:
+  description: Sales grouped by possession status
+  expression: COUNT(DISTINCT Sales_Order)
+  group_by: |
+    CASE 
+      WHEN (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0) THEN 'Possession Given'
+      WHEN (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0) AND Possession_Given_On IS NULL THEN 'Agreement Given, Possession Pending'
+      WHEN (Agreement_Prepared_On IS NULL OR Agreement_Prepared_On = 0) THEN 'Agreement Pending'
+      ELSE 'Unknown'
+    END
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+  behavior: additive
+  unit: Count
+  business_logic: Categorizes sales by their current stage in possession journey
+
+# ────────────────────────────────────────────────────────
+# COMPLETION RATE METRICS
+# ────────────────────────────────────────────────────────
+
+possession_completion_rate:
+  description: Percentage of sales that have completed possession handover
+  expression: |
+    CAST(COUNT(DISTINCT CASE WHEN (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0) THEN Sales_Order END) AS DOUBLE)
+    / NULLIF(COUNT(DISTINCT Sales_Order), 0) * 100
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+  behavior: ratio
+  unit: Percentage
+  business_logic: What % of sales with agreements have received possession
+
+agreement_completion_rate:
+  description: Percentage of sales that have agreement prepared
+  expression: |
+    CAST(COUNT(DISTINCT CASE WHEN (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0) THEN Sales_Order END) AS DOUBLE)
+    / NULLIF(COUNT(DISTINCT Sales_Order), 0) * 100
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+  behavior: ratio
+  unit: Percentage
+  business_logic: What % of sales have agreements prepared
+
+# ────────────────────────────────────────────────────────
+# DIMENSIONAL POSSESSION METRICS
+# ────────────────────────────────────────────────────────
+
+tower_wise_possession_pending:
+  description: Possession pending count by tower
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NULL OR Possession_Given_On = 0)
+    - Tower_Desc IS NOT NULL
+  suggested_dimensions: [tower_desc]
+  behavior: additive
+  unit: Count
+
+tower_wise_possession_given:
+  description: Possession given count by tower
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0)
+    - Tower_Desc IS NOT NULL
+  suggested_dimensions: [tower_desc]
+  behavior: additive
+  unit: Count
+
+floor_wise_possession_pending:
+  description: Possession pending count by floor
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NULL OR Possession_Given_On = 0)
+    - Floor_Desc IS NOT NULL
+  suggested_dimensions: [floor_desc]
+  behavior: additive
+  unit: Count
+
+product_wise_possession_pending:
+  description: Possession pending count by product
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NULL OR Possession_Given_On = 0)
+    - Sales_Group_Desc IS NOT NULL
+  suggested_dimensions: [sales_group_desc]
+  behavior: additive
+  unit: Count
+
+# ────────────────────────────────────────────────────────
+# TIME-BASED METRICS (TAT - Turn Around Time)
+# ────────────────────────────────────────────────────────
+
+average_days_to_agreement:
+  description: Average days from sale to agreement preparation
+  expression: |
+    AVG(
+      CAST(
+        date_diff('day', 
+          TRY(DATE_PARSE(CAST(Document_Date AS VARCHAR), '%Y%m%d')),
+          Agreement_Prepared_On
+        ) AS DOUBLE
+      )
+    )
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+  behavior: average
+  unit: Days
+  business_logic: How long does it take to prepare agreement after sale
+
+average_days_to_possession:
+  description: Average days from agreement to possession handover
+  expression: |
+    AVG(
+      CAST(
+        date_diff('day', 
+          Agreement_Prepared_On,
+          Possession_Given_On
+        ) AS DOUBLE
+      )
+    )
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0)
+  behavior: average
+  unit: Days
+  business_logic: How long does it take to give possession after agreement
+
+average_total_cycle_time:
+  description: Average days from sale to possession (total journey time)
+  expression: |
+    AVG(
+      CAST(
+        date_diff('day', 
+          TRY(DATE_PARSE(CAST(Document_Date AS VARCHAR), '%Y%m%d')),
+          Possession_Given_On
+        ) AS DOUBLE
+      )
+    )
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0)
+  behavior: average
+  unit: Days
+  business_logic: Total time from sale to possession completion
+
+# ────────────────────────────────────────────────────────
+# VALUE-BASED METRICS
+# ────────────────────────────────────────────────────────
+
+possession_pending_value:
+  description: Total value of sales with possession pending
+  expression: SUM("net_value")
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NOT NULL AND Agreement_Prepared_On != 0)
+    - (Possession_Given_On IS NULL OR Possession_Given_On = 0)
+  behavior: additive
+  unit: INR
+  business_logic: Revenue locked in pending possessions
+
+possession_given_value:
+  description: Total value of sales with possession completed
+  expression: SUM("net_value")
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Possession_Given_On IS NOT NULL AND Possession_Given_On != 0)
+  behavior: additive
+  unit: INR
+
+agreement_pending_value:
+  description: Total value of sales with agreement pending
+  expression: SUM("net_value")
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") != 'cancelled'
+    - Document_Date IS NOT NULL
+    - (Agreement_Prepared_On IS NULL OR Agreement_Prepared_On = 0)
+  behavior: additive
+  unit: INR
+
+# ============================================================
+# FIX #3: STATUS BREAKDOWN DIMENSIONS
+# ============================================================
+
+# possession_status:
+#   column: "CASE 
+#             WHEN Agreement_Prepared_On IS NOT NULL AND CAST(Agreement_Prepared_On AS BIGINT) != 0 
+#                  AND (Possession_Given_On IS NULL OR CAST(Possession_Given_On AS BIGINT) = 0) 
+#             THEN 'Pending'
+#             WHEN Possession_Given_On IS NOT NULL AND CAST(Possession_Given_On AS BIGINT) != 0 
+#             THEN 'Completed'
+#             ELSE 'Not Started'
+#           END"
+#   type: categorical
+
+# agreement_status:
+#   column: "CASE 
+#             WHEN Agreement_Prepared_On IS NOT NULL AND CAST(Agreement_Prepared_On AS BIGINT) != 0 
+#             THEN 'Completed'
+#             ELSE 'Pending'
+#           END"
+#   type: categorical
+
+
+cancelled_sales:
+  description: Total number of unique cancelled sales orders
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") = 'cancelled'
+  behavior: additive
+  unit: Count
+  business_logic: Count of all cancelled bookings based on Customer_Type
+
+
+cancelled_units:
+  description: Total number of unique cancelled sales orders
+  expression: COUNT(DISTINCT Sales_Order)
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") = 'cancelled'
+  behavior: additive
+  unit: Count
+  business_logic: Count of all cancelled bookings based on Customer_Type
+
+
+cancelled_sales_value:
+  description: Total value of cancelled sales orders
+  expression: SUM("net_value")
+  filters:
+    - Sales_Order IS NOT NULL
+    - LOWER("Customer_Type") = 'cancelled'
+  behavior: additive
+  unit: INR
+  business_logic: Revenue lost to cancellations
